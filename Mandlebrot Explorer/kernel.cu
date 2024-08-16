@@ -49,7 +49,6 @@ int main() {
 
     cudaFree(imagePtr_CUDA);
 
-    // Output the image to the console (for debugging)
     for (int y = 0; y < arr_height; ++y) {
         for (int x = 0; x < arr_width; ++x) {
             std::cout << imagePtr[y * arr_width + x] << " ";
