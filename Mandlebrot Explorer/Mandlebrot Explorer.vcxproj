@@ -77,12 +77,12 @@
     </CudaCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <CudaCompile Include="complex.cu" />
-    <CudaCompile Include="kernel.cu" />
-    <CudaCompile Include="mandlebrotGen.cu" />
+    <CudaCompile Include="Complex.cu" />
+    <CudaCompile Include="MandlebrotKernel.cu" />
+    <CudaCompile Include="MandlebrotGen.cu" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
