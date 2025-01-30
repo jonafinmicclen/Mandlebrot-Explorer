@@ -1,6 +1,5 @@
 ﻿#include "Mandlebrot.cuh"
 #include <iostream>
-#include <cuda_runtime.h>
 #include "device_launch_parameters.h"
 
 // Image array parameters
