@@ -77,8 +77,12 @@
     </CudaCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <CudaCompile Include="complex.cu" />
-    <CudaCompile Include="kernel.cu" />
+    <CudaCompile Include="Complex.cuh" />
+    <CudaCompile Include="Main.cpp" />
+    <CudaCompile Include="Mandlebrot.cu" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Mandlebrot.cuh" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

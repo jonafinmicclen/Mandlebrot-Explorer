@@ -1,3 +1,5 @@
+#pragma once
+
 #include <cmath>
 #include <cuda_runtime.h>
 
@@ -19,6 +21,6 @@ public:
     }
 
     __device__ float magnitude() const {
-        return sqrt(real * real + imag * imag);
+        return sqrtf(real * real + imag * imag);
     }
 };
