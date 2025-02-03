@@ -3,5 +3,8 @@
 // Open GL
 #include <GL/glut.h>
 
-inline void InitialiseOpenGL();
-inline void RenderArray(*int array);
+namespace RenderFunctions
+{
+  inline void InitialiseOpenGL();
+  inline void RenderArray(*int array);
+}
