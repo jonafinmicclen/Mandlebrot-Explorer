@@ -1,6 +1,6 @@
 #include "Render.cuh"
 
-inline void InitialiseOpenGL()
+inline void RenderFunctions::InitialiseOpenGL()
 {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
@@ -11,7 +11,7 @@ inline void InitialiseOpenGL()
     gluOrtho2D(0.0, camera->width, 0.0, camera->height); // Set the coordinate system
 }
 
-inline void RenderArray(int* array, int width, int height, float brightness_multiplier)  
+inline void RenderFunctions::RenderArray(int* array, int width, int height, float brightness_multiplier)  
 {
     int index = 0;
     for (int x = 0; x < width; ++x) 
