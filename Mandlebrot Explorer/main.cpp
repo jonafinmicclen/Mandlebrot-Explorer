@@ -1,6 +1,13 @@
-﻿#include "Mandlebrot.cuh"
+﻿// Local
+#include "Mandlebrot.cuh"
+#include "Render.h"
+
+// Standard
 #include <iostream>
+
+// CUDA
 #include "device_launch_parameters.h"
+
 
 // Image array parameters
 const int arr_width = 100;
@@ -15,6 +22,7 @@ int* imagePtr_CUDA;
 dim3 threadsPerBlock(10, 10);
 dim3 blocksPerGrid((arr_width + threadsPerBlock.x - 1) / threadsPerBlock.x,
     (arr_height + threadsPerBlock.y - 1) / threadsPerBlock.y);
+
 
 void cleanupMemory() {
     // Cleanup memory
@@ -35,7 +43,9 @@ void generateMandlebrotImage() {
 
 }
 
-int main() {
+int main(int argc, char** argv) {
+
+    RenderFunctions::InitialiseOpenGL(100, 100, argc, argv);
 
     allocateCUDAMemory();
     generateMandlebrotImage();
@@ -48,7 +58,15 @@ int main() {
         std::cout << "\n";
     }
 
+    // Render loop
+    while (1) {
+        RenderFunctions::InitialiseRender();
+        RenderFunctions::RenderArray(imagePtr, arr_width, arr_height, 1.0f);
+        RenderFunctions::FinaliseRender();
+    }
+
     cleanupMemory();
 
     return 0;
 }
+

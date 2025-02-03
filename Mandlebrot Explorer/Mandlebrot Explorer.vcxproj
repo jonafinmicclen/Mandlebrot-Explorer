@@ -80,9 +80,11 @@
     <CudaCompile Include="Complex.cuh" />
     <CudaCompile Include="Main.cpp" />
     <CudaCompile Include="Mandlebrot.cu" />
+    <CudaCompile Include="Render.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Mandlebrot.cuh" />
+    <ClInclude Include="Render.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
