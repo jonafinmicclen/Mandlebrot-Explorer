@@ -3,7 +3,7 @@
 void RenderFunctions::InitialiseOpenGL(int width, int height, int argc, char** argv)
 {
     glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
     glutInitWindowSize(width, height);
     glutCreateWindow("Mandlebrot Explorer");
     glClearColor(1.0, 1.0, 1.0, 1.0); // Set clear color to white
@@ -35,5 +35,5 @@ void RenderFunctions::InitialiseRender() {
 
 void RenderFunctions::FinaliseRender() {
     glEnd();
-    glFlush();
+    glutSwapBuffers();
 }

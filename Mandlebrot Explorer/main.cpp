@@ -9,6 +9,7 @@
 #include "device_launch_parameters.h"
 
 
+
 // Image array parameters
 const int arr_width = 1000;
 const int arr_height = 1000;
@@ -22,6 +23,7 @@ int* imagePtr_CUDA;
 dim3 threadsPerBlock(10, 10);
 dim3 blocksPerGrid((arr_width + threadsPerBlock.x - 1) / threadsPerBlock.x,
     (arr_height + threadsPerBlock.y - 1) / threadsPerBlock.y);
+
 
 
 void cleanupMemory() {
@@ -48,12 +50,13 @@ int main(int argc, char** argv) {
     RenderFunctions::InitialiseOpenGL(arr_width, arr_height, argc, argv);
 
     allocateCUDAMemory();
-    generateMandlebrotImage();
 
     // Render loop
     while (1) {
+        generateMandlebrotImage();
+
         RenderFunctions::InitialiseRender();
-        RenderFunctions::RenderArray(imagePtr, arr_width, arr_height, 1.0f);
+        RenderFunctions::RenderArray(imagePtr, arr_width, arr_height, 0.09f);
         RenderFunctions::FinaliseRender();
     }
 
