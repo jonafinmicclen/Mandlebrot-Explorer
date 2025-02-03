@@ -11,7 +11,7 @@ inline void InitialiseOpenGL()
     gluOrtho2D(0.0, camera->width, 0.0, camera->height); // Set the coordinate system
 }
 
-inline void RenderArray(int* array, int width, int height, int brightness_multiplier)  
+inline void RenderArray(int* array, int width, int height, float brightness_multiplier)  
 {
     int index = 0;
     for (int x = 0; x < width; ++x) 
