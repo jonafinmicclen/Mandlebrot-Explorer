@@ -10,8 +10,8 @@
 
 
 // Image array parameters
-const int arr_width = 100;
-const int arr_height = 100;
+const int arr_width = 1000;
+const int arr_height = 1000;
 const int size_of_arr = arr_height * arr_width;
 int size_of_arr_bytes = sizeof(int) * size_of_arr;
 
@@ -45,18 +45,10 @@ void generateMandlebrotImage() {
 
 int main(int argc, char** argv) {
 
-    RenderFunctions::InitialiseOpenGL(100, 100, argc, argv);
+    RenderFunctions::InitialiseOpenGL(arr_width, arr_height, argc, argv);
 
     allocateCUDAMemory();
     generateMandlebrotImage();
-
-    // Output the image to the console (for debugging)
-    for (int y = 0; y < arr_height; ++y) {
-        for (int x = 0; x < arr_width; ++x) {
-            std::cout << imagePtr[y * arr_width + x] << " ";
-        }
-        std::cout << "\n";
-    }
 
     // Render loop
     while (1) {

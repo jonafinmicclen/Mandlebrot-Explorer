@@ -1,13 +1,42 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <CudaCompile Include="Complex.cuh" />
-    <CudaCompile Include="Main.cpp" />
-    <CudaCompile Include="Mandlebrot.cu" />
-    <CudaCompile Include="Render.cpp" />
+    <CudaCompile Include="Main.cpp">
+      <Filter>Source</Filter>
+    </CudaCompile>
+    <CudaCompile Include="Render.cpp">
+      <Filter>Source</Filter>
+    </CudaCompile>
+    <CudaCompile Include="Complex.cuh">
+      <Filter>CUDA\Headers</Filter>
+    </CudaCompile>
+    <CudaCompile Include="Mandlebrot.cu">
+      <Filter>CUDA\Source</Filter>
+    </CudaCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Mandlebrot.cuh" />
-    <ClInclude Include="Render.h" />
+    <ClInclude Include="Render.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Mandlebrot.cuh">
+      <Filter>CUDA\Headers</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CUDA">
+      <UniqueIdentifier>{ee10dd17-d3b8-4b4e-9d86-3d34983c3651}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source">
+      <UniqueIdentifier>{73a19e3b-9b78-44c3-9315-a6b11c1d99dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers">
+      <UniqueIdentifier>{f062b7c2-07b9-4ee3-81ea-90ad0ae7dd00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CUDA\Headers">
+      <UniqueIdentifier>{e4441917-50b5-4fc4-999f-2a6f1ce62395}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CUDA\Source">
+      <UniqueIdentifier>{0d134795-b38e-4412-9e39-5b9ec1e5bd76}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

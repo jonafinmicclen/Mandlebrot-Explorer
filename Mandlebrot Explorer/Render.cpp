@@ -14,14 +14,12 @@ void RenderFunctions::InitialiseOpenGL(int width, int height, int argc, char** a
 void RenderFunctions::RenderArray(int* array, int width, int height, float brightness_multiplier)  
 {
     int index = 0;
+    int intensity;
     for (int x = 0; x < width; ++x) 
     {
         for (int y = 0; y < height; ++y) 
         {
-            int intensity = brightness_multiplier * array[index];
-
-            std::cout << intensity;
-            
+            intensity = brightness_multiplier * array[index];
             glColor3f(intensity, intensity, intensity);
             glVertex2i(x, y);
   
