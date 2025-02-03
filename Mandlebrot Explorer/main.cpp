@@ -53,6 +53,7 @@ void generateMandlebrotImage(float x_zoom, float y_zoom, float x_offset, float y
 
 void Display() {
     generateMandlebrotImage(XZOOM, YZOOM, XOFFSET, YOFFSET);
+    cudaDeviceSynchronize();
     OpenGLAbstractions::InitialiseRender();
     OpenGLAbstractions::RenderArray(imagePtr, arr_width, arr_height, 0.1f);
     OpenGLAbstractions::FinaliseRender();
