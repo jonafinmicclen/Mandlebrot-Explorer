@@ -5,7 +5,7 @@ inline void RenderFunctions::InitialiseOpenGL()
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
     glutInitWindowSize(camera->width, camera->height);
-    glutCreateWindow("CUDA Ray tracing");
+    glutCreateWindow("Mandlebrot Explorer");
     glClearColor(1.0, 1.0, 1.0, 1.0); // Set clear color to white
     glMatrixMode(GL_PROJECTION);
     gluOrtho2D(0.0, camera->width, 0.0, camera->height); // Set the coordinate system
