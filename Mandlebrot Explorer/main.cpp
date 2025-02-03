@@ -3,6 +3,7 @@
 #include "Render.h"
 
 // Standard
+#include <algorithm>
 #include <iostream>
 
 // CUDA
@@ -15,6 +16,11 @@ const int arr_width = 1000;
 const int arr_height = 1000;
 const int size_of_arr = arr_height * arr_width;
 int size_of_arr_bytes = sizeof(int) * size_of_arr;
+
+float XZOOM = 1.0f;
+float YZOOM = 1.0f;
+float XOFFSET = 0;
+float YOFFSET = 0;
 
 // Allocate device and host memory
 int* imagePtr = new int[size_of_arr];
@@ -36,29 +42,50 @@ void allocateCUDAMemory() {
     cudaMalloc((void**)&imagePtr_CUDA, size_of_arr_bytes);
 }
 
-void generateMandlebrotImage() {
+void generateMandlebrotImage(float x_zoom, float y_zoom, float x_offset, float y_offset) {
 
     // Generate image
-    mandelbrot_kernel << <blocksPerGrid, threadsPerBlock >> > (imagePtr_CUDA, arr_width, arr_height);
+    mandelbrot_kernel << <blocksPerGrid, threadsPerBlock >> > (imagePtr_CUDA, arr_width, arr_height, x_zoom, y_zoom, x_offset, y_offset);
     // Copy array to host(CPU) memory
     cudaMemcpy(imagePtr, imagePtr_CUDA, size_of_arr_bytes, cudaMemcpyDeviceToHost);
 
 }
 
+void Display() {
+    generateMandlebrotImage(XZOOM, YZOOM, XOFFSET, YOFFSET);
+    OpenGLAbstractions::InitialiseRender();
+    OpenGLAbstractions::RenderArray(imagePtr, arr_width, arr_height, 0.1f);
+    OpenGLAbstractions::FinaliseRender();
+
+}
+
+void MouseWheel(int button, int dir, int x, int y)
+{
+    if (button == 3) {  // Zoom in
+        XZOOM += 0.1f * XZOOM;
+        YZOOM += 0.1f * YZOOM;
+    }
+    else if (button == 4) {  // Zoom out
+        XZOOM -= 0.1f * XZOOM;
+        YZOOM -= 0.1f * YZOOM;
+    }
+    float reductionFactor = XZOOM;
+    XOFFSET -= (y - arr_width / 2) / (reductionFactor * 10);
+    YOFFSET += (x - arr_height / 2) / (reductionFactor * 10);
+
+    glutPostRedisplay();
+}
+
 int main(int argc, char** argv) {
 
-    RenderFunctions::InitialiseOpenGL(arr_width, arr_height, argc, argv);
+    OpenGLAbstractions::InitialiseOpenGL(arr_width, arr_height, argc, argv);
+
+    glutDisplayFunc(Display);
+    glutMouseFunc(MouseWheel);
 
     allocateCUDAMemory();
 
-    // Render loop
-    while (1) {
-        generateMandlebrotImage();
-
-        RenderFunctions::InitialiseRender();
-        RenderFunctions::RenderArray(imagePtr, arr_width, arr_height, 0.09f);
-        RenderFunctions::FinaliseRender();
-    }
+    glutMainLoop();
 
     cleanupMemory();
 

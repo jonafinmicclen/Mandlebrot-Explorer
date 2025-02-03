@@ -15,10 +15,14 @@ __device__ float mandlebrot_iterate(Complex C)
     return 0;
 }
 
-__global__ void mandelbrot_kernel(int* imagePtr, int width, int height) {
+__global__ void mandelbrot_kernel(int* imagePtr, int width, int height,
+    float x_zoom, float y_zoom, float x_offset, float y_offset)
+{
     int x = threadIdx.x + blockIdx.x * blockDim.x;
     int y = threadIdx.y + blockIdx.y * blockDim.y;
 
-    Complex C((x - width / 2.0f) / (width / 4.0f), (y - height / 2.0f) / (height / 4.0f) - 0.5f);
+    Complex C(  x_offset + (x - (width/2))/x_zoom,
+                y_offset + (y - (height/2))/y_zoom  );
+
     imagePtr[y * width + x] = mandlebrot_iterate(C);
 }

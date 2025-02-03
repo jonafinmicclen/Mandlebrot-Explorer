@@ -1,6 +1,7 @@
 #include "Render.h"
 
-void RenderFunctions::InitialiseOpenGL(int width, int height, int argc, char** argv)
+
+void OpenGLAbstractions::InitialiseOpenGL(int width, int height, int argc, char** argv)
 {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
@@ -11,7 +12,7 @@ void RenderFunctions::InitialiseOpenGL(int width, int height, int argc, char** a
     gluOrtho2D(0.0, width, 0.0, height); // Set the coordinate system
 }
 
-void RenderFunctions::RenderArray(int* array, int width, int height, float brightness_multiplier)  
+void OpenGLAbstractions::RenderArray(int* array, int width, int height, float brightness_multiplier)  
 {
     int index = 0;
     int intensity;
@@ -28,12 +29,12 @@ void RenderFunctions::RenderArray(int* array, int width, int height, float brigh
     }
 }
 
-void RenderFunctions::InitialiseRender() {
+void OpenGLAbstractions::InitialiseRender() {
     glClear(GL_COLOR_BUFFER_BIT);
     glBegin(GL_POINTS);
 }
 
-void RenderFunctions::FinaliseRender() {
+void OpenGLAbstractions::FinaliseRender() {
     glEnd();
     glutSwapBuffers();
 }
