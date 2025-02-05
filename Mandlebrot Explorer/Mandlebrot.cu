@@ -23,5 +23,5 @@ __global__ void mandelbrot_kernel(int* imagePtr, int width, int height,
     Complex C(  x_offset + (x - (width/2))/x_zoom,
                 y_offset + (y - (height/2))/y_zoom  );
 
-    imagePtr[y * width + x] = mandlebrot_iterate(C, 1000);
+    imagePtr[y * width + x] = mandlebrot_iterate(C, 4^int(5 + x_zoom/10));
 }

@@ -17,10 +17,10 @@ const int arr_height = 1000;
 const int size_of_arr = arr_height * arr_width;
 int size_of_arr_bytes = sizeof(int) * size_of_arr;
 
-float XZOOM = 1.0f;
-float YZOOM = 1.0f;
-float XOFFSET = 0;
-float YOFFSET = 0;
+float XZOOM = arr_width/4;
+float YZOOM = arr_width/4;
+float XOFFSET = 0.0f;
+float YOFFSET = 0.0f;
 
 // Allocate device and host memory
 int* imagePtr = new int[size_of_arr];
@@ -55,7 +55,7 @@ void Display() {
     generateMandlebrotImage(XZOOM, YZOOM, XOFFSET, YOFFSET);
     cudaDeviceSynchronize();
     OpenGLAbstractions::InitialiseRender();
-    OpenGLAbstractions::RenderArray(imagePtr, arr_width, arr_height, 0.1f);
+    OpenGLAbstractions::RenderArray(imagePtr, arr_width, arr_height, 0.01f);
     OpenGLAbstractions::FinaliseRender();
 
 }
@@ -70,9 +70,8 @@ void MouseWheel(int button, int dir, int x, int y)
         XZOOM -= 0.1f * XZOOM;
         YZOOM -= 0.1f * YZOOM;
     }
-    float reductionFactor = XZOOM;
-    XOFFSET -= (y - arr_width / 2) / (reductionFactor * 10);
-    YOFFSET += (x - arr_height / 2) / (reductionFactor * 10);
+    XOFFSET -= (y - arr_width / 2) / (XZOOM * 10);
+    YOFFSET += (x - arr_height / 2) / (YZOOM * 10);
 
     glutPostRedisplay();
 }
