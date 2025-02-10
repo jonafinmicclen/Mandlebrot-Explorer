@@ -26,7 +26,7 @@ float YOFFSET = 0.0f;
 int* imagePtr = new int[size_of_arr];
 int* imagePtr_CUDA;
 
-dim3 threadsPerBlock(10, 10);
+dim3 threadsPerBlock(32, 32);
 dim3 blocksPerGrid((arr_width + threadsPerBlock.x - 1) / threadsPerBlock.x,
     (arr_height + threadsPerBlock.y - 1) / threadsPerBlock.y);
 
@@ -76,6 +76,11 @@ void MouseWheel(int button, int dir, int x, int y)
     glutPostRedisplay();
 }
 
+void Timer(int value) {
+    glutPostRedisplay();  // Request redraw
+    glutTimerFunc(1000 / 60, Timer, 0);  // Call again in ~16.67ms
+}
+
 int main(int argc, char** argv) {
 
     OpenGLAbstractions::InitialiseOpenGL(arr_width, arr_height, argc, argv);
@@ -86,6 +91,8 @@ int main(int argc, char** argv) {
     allocateCUDAMemory();
 
     glutMainLoop();
+
+    glutTimerFunc(1000 / 60, Timer, 0);  // Call again in ~16.67ms
 
     cleanupMemory();
 
