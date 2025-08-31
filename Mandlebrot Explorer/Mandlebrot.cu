@@ -1,6 +1,6 @@
 #include "Mandlebrot.cuh"
 
-__device__ float mandlebrot_iterate(Complex C, int max_iterations)
+__device__ int mandlebrot_iterate(Complex C, int max_iterations)
 {
     Complex Zn = Complex(0, 0);
     int iterations_countdown = max_iterations;
@@ -23,5 +23,5 @@ __global__ void mandelbrot_kernel(int* imagePtr, int width, int height,
                 y_offset + (y - (height/2))/y_zoom  );
 
     int* pixelPtr = &imagePtr[y * width + x];
-    pixelPtr = mandlebrot_iterate(C, *pixelPtr * 30);
+    *pixelPtr = mandlebrot_iterate(C, 50);
 }

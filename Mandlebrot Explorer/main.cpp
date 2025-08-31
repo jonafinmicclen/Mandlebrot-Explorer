@@ -9,6 +9,8 @@
 // CUDA
 #include "device_launch_parameters.h"
 
+// Render parameters
+float BRIGHTNESS = 0.1f;
 
 
 // Image array parameters
@@ -51,11 +53,12 @@ void generateMandlebrotImage(float x_zoom, float y_zoom, float x_offset, float y
 
 }
 
+// Main loop
 void Display() {
     generateMandlebrotImage(XZOOM, YZOOM, XOFFSET, YOFFSET);
     cudaDeviceSynchronize();
     OpenGLAbstractions::InitialiseRender();
-    OpenGLAbstractions::RenderArray(imagePtr, arr_width, arr_height, 0.01f);
+    OpenGLAbstractions::RenderArray(imagePtr, arr_width, arr_height, BRIGHTNESS);
     OpenGLAbstractions::FinaliseRender();
 
 }
