@@ -60,8 +60,9 @@ void Display() {
 
 }
 
-void MouseWheel(int button, int dir, int x, int y)
+void MouseWheel(int button, int dir, int x, int y)  // x y is mouse position
 {
+    // Zoom image
     if (button == 3) {  // Zoom in
         XZOOM += 0.1f * XZOOM;
         YZOOM += 0.1f * YZOOM;
@@ -70,7 +71,11 @@ void MouseWheel(int button, int dir, int x, int y)
         XZOOM -= 0.1f * XZOOM;
         YZOOM -= 0.1f * YZOOM;
     }
-    XOFFSET -= (y - arr_width / 2) / (XZOOM * 10);
+
+    // Pan image
+    // divide by zoom to avoid increasing pan sensitivity from zooming
+
+    XOFFSET -= (y - arr_width / 2) / (XZOOM * 10);  
     YOFFSET += (x - arr_height / 2) / (YZOOM * 10);
 
     glutPostRedisplay();
