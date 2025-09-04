@@ -9,30 +9,25 @@
 // CUDA
 #include "device_launch_parameters.h"
 
-// Render parameters
-float BRIGHTNESS = 0.1f;
+// Global constants
+#include "constants.h"
 
+// Render parameters
+float BRIGHTNESS = 0.15f;                                                                     
 
 // Image array parameters
-const int arr_width = 1000;
-const int arr_height = 1000;
-const int size_of_arr = arr_height * arr_width;
-int size_of_arr_bytes = sizeof(int) * size_of_arr;
-
-float XZOOM = arr_width/4;
-float YZOOM = arr_width/4;
+float XZOOM = ARR_WIDTH/4;
+float YZOOM = ARR_WIDTH/4;
 float XOFFSET = 0.0f;
 float YOFFSET = 0.0f;
 
 // Allocate device and host memory
-int* imagePtr = new int[size_of_arr];
+int* imagePtr = new int[ARR_SIZE];
 int* imagePtr_CUDA;
 
 dim3 threadsPerBlock(10, 10);
-dim3 blocksPerGrid((arr_width + threadsPerBlock.x - 1) / threadsPerBlock.x,
-    (arr_height + threadsPerBlock.y - 1) / threadsPerBlock.y);
-
-
+dim3 blocksPerGrid((ARR_WIDTH + threadsPerBlock.x - 1) / threadsPerBlock.x,
+    (ARR_HEIGHT + threadsPerBlock.y - 1) / threadsPerBlock.y);
 
 void cleanupMemory() {
     // Cleanup memory
@@ -41,24 +36,26 @@ void cleanupMemory() {
 }
 
 void allocateCUDAMemory() {
-    cudaMalloc((void**)&imagePtr_CUDA, size_of_arr_bytes);
+    cudaMalloc((void**)&imagePtr_CUDA, ARR_SIZE_B);
 }
 
 void generateMandlebrotImage(float x_zoom, float y_zoom, float x_offset, float y_offset) {
-
+    // Reset image array
+    cudaMemset(imagePtr_CUDA, 0, ARR_SIZE_B);
     // Generate image
-    mandelbrot_kernel << <blocksPerGrid, threadsPerBlock >> > (imagePtr_CUDA, arr_width, arr_height, x_zoom, y_zoom, x_offset, y_offset);
+    mandelbrot_kernel << <blocksPerGrid, threadsPerBlock >> > (imagePtr_CUDA, ARR_WIDTH, ARR_HEIGHT, x_zoom, y_zoom, x_offset, y_offset);
     // Copy array to host(CPU) memory
-    cudaMemcpy(imagePtr, imagePtr_CUDA, size_of_arr_bytes, cudaMemcpyDeviceToHost);
+    cudaMemcpy(imagePtr, imagePtr_CUDA, ARR_SIZE_B, cudaMemcpyDeviceToHost);
 
 }
 
 // Main loop
 void Display() {
+    std::cout << "i";
     generateMandlebrotImage(XZOOM, YZOOM, XOFFSET, YOFFSET);
     cudaDeviceSynchronize();
     OpenGLAbstractions::InitialiseRender();
-    OpenGLAbstractions::RenderArray(imagePtr, arr_width, arr_height, BRIGHTNESS);
+    OpenGLAbstractions::RenderArray(imagePtr, ARR_WIDTH, ARR_HEIGHT, BRIGHTNESS);
     OpenGLAbstractions::FinaliseRender();
 
 }
@@ -78,15 +75,15 @@ void MouseWheel(int button, int dir, int x, int y)  // x y is mouse position
     // Pan image
     // divide by zoom to avoid increasing pan sensitivity from zooming
 
-    XOFFSET -= (y - arr_width / 2) / (XZOOM * 10);  
-    YOFFSET += (x - arr_height / 2) / (YZOOM * 10);
+    XOFFSET -= (y - ARR_WIDTH / 2) / (XZOOM * 10);  
+    YOFFSET += (x - ARR_HEIGHT / 2) / (YZOOM * 10);
 
     glutPostRedisplay();
 }
 
 int main(int argc, char** argv) {
 
-    OpenGLAbstractions::InitialiseOpenGL(arr_width, arr_height, argc, argv);
+    OpenGLAbstractions::InitialiseOpenGL(ARR_WIDTH, ARR_HEIGHT, argc, argv);
 
     glutDisplayFunc(Display);
     glutMouseFunc(MouseWheel);

@@ -9,6 +9,12 @@ public:
     float real;
     float imag;
 
+    __device__ Complex() {
+        real = 0.0f;
+        imag = 0.0f;
+    }
+
+
     __device__ Complex(float r, float i) : real(r), imag(i) {}
 
     __device__ Complex operator*(const Complex& other) const {

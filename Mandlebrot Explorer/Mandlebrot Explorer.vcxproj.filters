@@ -21,6 +21,9 @@
     <ClInclude Include="Mandlebrot.cuh">
       <Filter>CUDA\Headers</Filter>
     </ClInclude>
+    <ClInclude Include="Constants.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="CUDA">
