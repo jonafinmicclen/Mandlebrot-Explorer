@@ -2,9 +2,14 @@
 #include "Mandlebrot.cuh"
 #include "Render.h"
 
+// Image writing
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include "stb_image_write.h"
+
 // Standard
 #include <algorithm>
 #include <iostream>
+#include <cmath> 
 
 // CUDA
 #include "device_launch_parameters.h"
@@ -13,7 +18,7 @@
 #include "constants.h"
 
 // Render parameters
-float BRIGHTNESS = 0.1f;                                                                     
+float BRIGHTNESS = 0.01f;                                                                     
 
 // Image array parameters
 float XZOOM = ARR_WIDTH/4;
@@ -82,14 +87,31 @@ void MouseWheel(int button, int dir, int x, int y)  // x y is mouse position
 
 int main(int argc, char** argv) {
 
-    OpenGLAbstractions::InitialiseOpenGL(ARR_WIDTH, ARR_HEIGHT, argc, argv);
-
-    glutDisplayFunc(Display);
-    glutMouseFunc(MouseWheel);
-
     allocateCUDAMemory();
+    generateMandlebrotImage(XZOOM, YZOOM, XOFFSET, YOFFSET);
+    cudaDeviceSynchronize();
 
-    glutMainLoop();
+    unsigned char* imageBytes = new unsigned char[ARR_WIDTH * ARR_HEIGHT];
+
+    int maxVal = 0;
+    for (int i = 0; i < ARR_WIDTH * ARR_HEIGHT; ++i) {
+        if (imagePtr[i] > maxVal) {
+            maxVal = imagePtr[i];
+        }
+    }
+    float logMax = std::log(1.0f + maxVal); // logarithm of the maximum
+
+    for (int i = 0; i < ARR_WIDTH * ARR_HEIGHT; ++i) {
+        float v = std::log(1.0f + imagePtr[i]); // log scale
+        imageBytes[i] = static_cast<unsigned char>((v / logMax) * 255.0f);
+    }
+
+    if (stbi_write_png("output2.png", ARR_WIDTH, ARR_HEIGHT, 1, imageBytes, ARR_WIDTH) == 0) {
+        std::cerr << "Failed to write image\n";
+    }
+    else {
+        std::cout << "Image saved successfully\n";
+    }
 
     cleanupMemory();
 

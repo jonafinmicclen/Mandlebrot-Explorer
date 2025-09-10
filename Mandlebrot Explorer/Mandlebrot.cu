@@ -17,6 +17,9 @@ __device__ void mandlebrot_iterate(Complex C, int* imagePtr, float x_zoom, float
         if (imag_idx >= 0 && imag_idx < ARR_SIZE) {
             atomicAdd(&imagePtr[imag_idx], 1);
         }
+        else {
+            return;
+        }
 
         if (Zn.magnitude() >= 2.0) { return; }
 

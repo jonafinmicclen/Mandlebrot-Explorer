@@ -86,6 +86,7 @@
     <ClInclude Include="Constants.h" />
     <ClInclude Include="Mandlebrot.cuh" />
     <ClInclude Include="Render.h" />
+    <ClInclude Include="stb_image_write.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
