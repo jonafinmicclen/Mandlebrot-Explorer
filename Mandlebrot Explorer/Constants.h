@@ -5,4 +5,4 @@
 #define ARR_SIZE (ARR_WIDTH * ARR_HEIGHT)
 #define ARR_SIZE_B (sizeof(int) * ARR_SIZE)
 
-#define MAX_ITERATIONS (1000)
+#define MAX_ITERATIONS (10000)

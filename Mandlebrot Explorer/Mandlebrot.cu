@@ -21,7 +21,7 @@ __device__ void mandlebrot_iterate(Complex C, int* imagePtr, float x_zoom, float
                 int imag_idx = y * ARR_WIDTH + x;
 
                 // Ensure in bounds then add
-                if (0 <= imag_idx < ARR_SIZE) {
+                if (imag_idx >= 0 && imag_idx < ARR_SIZE) {
                     atomicAdd(&imagePtr[imag_idx], 1);
                 }
                 

@@ -13,7 +13,7 @@
 #include "constants.h"
 
 // Render parameters
-float BRIGHTNESS = 0.15f;                                                                     
+float BRIGHTNESS = 0.1f;                                                                     
 
 // Image array parameters
 float XZOOM = ARR_WIDTH/4;
@@ -51,7 +51,6 @@ void generateMandlebrotImage(float x_zoom, float y_zoom, float x_offset, float y
 
 // Main loop
 void Display() {
-    std::cout << "i";
     generateMandlebrotImage(XZOOM, YZOOM, XOFFSET, YOFFSET);
     cudaDeviceSynchronize();
     OpenGLAbstractions::InitialiseRender();
